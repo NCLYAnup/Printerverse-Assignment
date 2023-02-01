@@ -1,0 +1,79 @@
+import React, { useState } from 'react';
+
+const initialBoard = [null, null, null, null, null, null, null, null, null];
+
+const Game = () => {
+  const [board, setBoard] = useState(initialBoard);
+  const [turn, setTurn] = useState('player');
+  const [winner, setWinner] = useState(null);
+
+  const handleClick = (index) => {
+    if (board[index] !== null || winner !== null) {
+      return;
+    }
+
+    let newBoard = [...board];
+    newBoard[index] = turn === 'player' ? 'player' : 'ai';
+
+    setBoard(newBoard);
+    setTurn(turn === 'player' ? 'ai' : 'player');
+
+    checkForWinner(newBoard);
+  };
+
+  const checkForWinner = (board) => {
+    const winningCombinations = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6]
+    ];
+
+    for (let i = 0; i < winningCombinations.length; i++) {
+      const [a, b, c] = winningCombinations[i];
+
+      if (board[a] === board[b] && board[b] === board[c]) {
+        setWinner(board[a]);
+        break;
+      }
+    }
+  };
+
+  const renderSquare = (index) => {
+    return (
+      <div
+        className="square"
+        onClick={() => handleClick(index)}
+      >
+        {board[index]}
+      </div>
+    );
+  };
+
+  return (
+    <div className="game-container">
+      <div className="board">
+        {renderSquare(0)}
+        {renderSquare(1)}
+        {renderSquare(2)}
+        {renderSquare(3)}
+        {renderSquare(4)}
+        {renderSquare(5)}
+        {renderSquare(6)}
+        {renderSquare(7)}
+        {renderSquare(8)}
+      </div>
+      {winner !== null && (
+        <div className="winner-message">
+          {winner === 'player' ? 'You win!' : 'AI wins.'}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Game;
