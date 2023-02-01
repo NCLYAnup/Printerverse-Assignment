@@ -1,0 +1,14 @@
+def sort_teams(teams):
+  return sorted(teams, key=lambda x: (x['Pts'], x['Net Run Rate']), reverse=True)
+
+teams = [
+  {'Name': 'Team A', 'Pts': 20, 'Net Run Rate': 10.0},
+  {'Name': 'Team B', 'Pts': 20, 'Net Run Rate': 5.0},
+  {'Name': 'Team C', 'Pts': 15, 'Net Run Rate': 8.0},
+  {'Name': 'Team D', 'Pts': 10, 'Net Run Rate': 4.0}
+]
+
+sorted_teams = sort_teams(teams)
+
+for team in sorted_teams:
+  print(f"{team['Name']}: Pts - {team['Pts']}, Net Run Rate - {team['Net Run Rate']}")
